@@ -1,13 +1,9 @@
 local LibStub = LibStub
 local AceAddon = LibStub("AceAddon-3.0")
 local AceLocale = LibStub("AceLocale-3.0")
-local AceDBOptions = LibStub("AceDBOptions-3.0")
-local AceConfig = LibStub("AceConfig-3.0")
-local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local MusicBox = AceAddon:GetAddon("MusicBox")
 local MusicBox_Options = AceAddon:GetAddon("MusicBox_Options")
 local L = AceLocale:GetLocale("MusicBox_Options")
-local tsort = table.sort
 local wipe = wipe
 local pairs = pairs
 
@@ -170,7 +166,6 @@ MusicBox_Options:push("search",
 			func = function()
 				if next(select_tb) and select_playlist then
 					local temp = {}
-					local k,v
 					for k,v in pairs(select_tb) do
 						if v then
 							temp[#temp+1] = k
@@ -179,7 +174,6 @@ MusicBox_Options:push("search",
 					wipe(select_tb)
 					table.sort(temp)
 					local t = MusicBox:GetPlaylist(select_playlist)
-					local i
 					for i = 1,#temp do
 						t[#t+1] = results_tb[temp[i]]
 					end

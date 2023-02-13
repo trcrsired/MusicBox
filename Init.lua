@@ -8,13 +8,18 @@ local AceConfigCmd = LibStub("AceConfigCmd-3.0")
 
 function MusicBox:OnInitialize()
 	local ismainline = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
+	local notmainlinenil
+	if not ismainline then
+		notmainlinenil = true
+	end
 	self.db = LibStub("AceDB-3.0"):New("MusicBoxDB",
 	{
 		profile = 
 		{
-			playlists = {},			
+			playlists = {},
 			playing = true,
-			game_music = ismainline or nil
+			game_music = ismainline or nil,
+			game_music_use_path = notmainlinenil
 		}
 	},true)
 	self.temp_playlist = {}
@@ -26,9 +31,6 @@ function MusicBox:OnInitialize()
 	self:SecureHook("SetCVar")
 	self:SecureHook("PlayMusic","HookPlayMusic")
 	self:SecureHook("StopMusic","HookStopMusic")
-	if self.db.profile.mainline_music and not ismainline then
-		LoadAddOn("MusicBox_MainlineMusic")
-	end
 end
 
 function MusicBox:ChatCommand(input)

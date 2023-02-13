@@ -122,7 +122,7 @@ function MusicBox:HookStopMusic()
 	self:Start()
 end
 
-function MusicBox:HookPlayMusic(music)
+function MusicBox:HookPlayMusic()
 	if self.timer then
 		self:CancelTimer(self.timer)
 		self.timer = nil
@@ -134,7 +134,7 @@ function MusicBox:HookStopMusic()
 	self:Start()
 end
 
-function MusicBox:SetCVar(name,value,...)
+function MusicBox:SetCVar(name)
 	if name == "Sound_EnableMusic" then
 		self:Start()
 	end

@@ -9,10 +9,17 @@ function MusicBox:UpdateWorld(pt)
 	if playlist then
 		self:PlayPlaylist(self:GetPlaylist(playlist))
 	else
-		local mainlinefunction = MusicBox.mainlinefunction
-		if mainlinefunction then
-			if mainlinefunction() then
-				return
+		local mainline_music = profile.mainline_music
+		if mainline_music then
+			local mainlinefunction = MusicBox.mainlinefunction
+			if mainlinefunction == nil then
+				LoadAddOn("MusicBox_MainlineMusic")
+				local mainlinefunction = MusicBox.mainlinefunction
+				if mainlinefunction then
+					if mainlinefunction() then
+						return
+					end
+				end
 			end
 		end
 		self:Stop()
@@ -59,6 +66,16 @@ function MusicBox:AddPlaylist(pname,pt)
 end
 function MusicBox:AddTempPlaylist(pname,pt)
 	self.temp_playlist[pname] = pt
+	if self.db.profile.game_music_use_path then
+		local tconcat = table.concat
+		for i=1,#pt do
+			local pti = pt[i]
+			local pti3 = pti[3]
+			if pti3 then
+				pti[4] = pname
+			end
+		end
+	end
 end
 function MusicBox:GetPlaylist(pname)
 	local pl = self.db.profile.playlists[pname]

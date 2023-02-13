@@ -1,9 +1,6 @@
 local LibStub = LibStub
 local AceAddon = LibStub("AceAddon-3.0")
 local AceLocale = LibStub("AceLocale-3.0")
-local AceDBOptions = LibStub("AceDBOptions-3.0")
-local AceConfig = LibStub("AceConfig-3.0")
-local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local MusicBox = AceAddon:GetAddon("MusicBox")
 local MusicBox_Options = AceAddon:GetAddon("MusicBox_Options")
 local L = AceLocale:GetLocale("MusicBox_Options")
@@ -18,12 +15,9 @@ local function get_order()
 	return temp
 end
 
-local select_playlist,select_roplaylist,select_add_from_playlist
+local select_playlist,select_roplaylist
 local function generate_song_select_values()
 	return MusicBox_Options.GeneratePlayListSongsValues(select_playlist)
-end
-local function generate_song_select_add_from_values()
-	return MusicBox_Options.GeneratePlayListSongsValues(select_add_from_playlist)
 end
 local song_path
 

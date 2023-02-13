@@ -25,10 +25,11 @@ local mainline_music_option_tb =
 	width = "full",
 	type = "toggle",
 	set = function(_,val)
-		MusicBox.db.profile.mainline_music = val
-		if val then
-			MusicBox:OnEnable()
+		if not val then
+			val = nil
 		end
+		MusicBox.db.profile.mainline_music = val
+		MusicBox:PLAYER_UPDATE_RESTING()
 	end,
 	get = function()
 		return MusicBox.db.profile.mainline_music
@@ -64,6 +65,23 @@ local playlist =
 			type = "execute",
 			func = function()
 				LoadAddOn("MusicBox_GameMusic")
+			end
+		},
+		ingamemusicbypath = 
+		{
+			order = get_order(),
+			name = L["Play Game Music With Path"],
+			desc = L.Playgamemusicpath_desc,
+			type = "toggle",
+			width = "full",
+			set = function(_,val)
+				MusicBox.db.profile.game_music_use_path = val
+				if val then
+					MusicBox:OnEnable()
+				end
+			end,
+			get = function()
+				return MusicBox.db.profile.game_music_use_path
 			end
 		},
 		Add =
