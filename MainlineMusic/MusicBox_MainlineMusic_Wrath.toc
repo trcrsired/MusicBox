@@ -1,5 +1,7 @@
 ## Interface: 30401
 ## Author: cqwrteur
 ## Title: MusicBox Mainline Music
+## Dependencies: MusicBox
+## LoadOnDemand: 1
 
 mainline.lua

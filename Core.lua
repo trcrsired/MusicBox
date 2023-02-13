@@ -14,11 +14,11 @@ function MusicBox:UpdateWorld(pt)
 			local mainlinefunction = MusicBox.mainlinefunction
 			if mainlinefunction == nil then
 				LoadAddOn("MusicBox_MainlineMusic")
-				local mainlinefunction = MusicBox.mainlinefunction
-				if mainlinefunction then
-					if mainlinefunction() then
-						return
-					end
+				mainlinefunction = MusicBox.mainlinefunction
+			end
+			if mainlinefunction then
+				if mainlinefunction() then
+					return
 				end
 			end
 		end
