@@ -2,7 +2,7 @@ local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 
 local zoneid_music_map =
 {
-[84] = --stormwind
+[1453] = --stormwind
 {
 {"sound\\music\\citymusic\\stormwind\\stormwind_intro-moment.mp3",66.855}, -- "sound\\music\\citymusic\\stormwind\\stormwind_intro-moment.mp3"
 {"sound\\music\\citymusic\\stormwind\\stormwind_highseas-moment.mp3",133.174},
