@@ -1,9 +1,6 @@
 local LibStub = LibStub
 local AceAddon = LibStub("AceAddon-3.0")
 local AceLocale = LibStub("AceLocale-3.0")
-local AceDBOptions = LibStub("AceDBOptions-3.0")
-local AceConfig = LibStub("AceConfig-3.0")
-local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local MusicBox = AceAddon:GetAddon("MusicBox")
 local MusicBox_Options = AceAddon:GetAddon("MusicBox_Options")
 local L = AceLocale:GetLocale("MusicBox_Options")
@@ -20,6 +17,24 @@ end
 
 local remove_tb = {}
 
+local mainline_music_option_tb = 
+{
+	order = get_order(),
+	name = L["Play Game Music from Retail WoW"],
+	desc = L.Mainline_desc,
+	width = "full",
+	type = "toggle",
+	set = function(_,val)
+		MusicBox.db.profile.mainline_music = val
+		if val then
+			MusicBox:OnEnable()
+		end
+	end,
+	get = function()
+		return MusicBox.db.profile.mainline_music
+	end
+}
+
 local playlist =
 {
 	name = L["Playlist"],
@@ -31,16 +46,17 @@ local playlist =
 			order = get_order(),
 			name = GAME,
 			type = "toggle",
-			set = function(info,val)
+			set = function(_,val)
 				MusicBox.db.profile.game_music = val
 				if val then
 					MusicBox:OnEnable()
 				end
 			end,
-			get = function(info)
+			get = function()
 				return MusicBox.db.profile.game_music
 			end
 		},
+		mainline_music = (WOW_PROJECT_MAINLINE~= WOW_PROJECT_ID) and mainline_music_option_tb or nil,
 		temp =
 		{
 			order = get_order(),
@@ -70,7 +86,6 @@ local playlist =
 			name = REMOVE,
 			type = "execute",
 			func = function()
-				local k,v
 				for k,v in pairs(remove_tb) do
 					if v then
 						MusicBox_RemovePlaylist(MusicBox,k)

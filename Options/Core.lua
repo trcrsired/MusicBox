@@ -1,6 +1,5 @@
 local LibStub = LibStub
 local AceAddon = LibStub("AceAddon-3.0")
-local AceLocale = LibStub("AceLocale-3.0")
 local AceDBOptions = LibStub("AceDBOptions-3.0")
 local AceConfig = LibStub("AceConfig-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
@@ -16,6 +15,7 @@ function MusicBox_Options:OnInitialize()
 	options.args.profile = AceDBOptions:GetOptionsTable(MusicBox.db)
 	AceConfig:RegisterOptionsTable("MusicBox", options, nil)
 	optionsFrames.general = AceConfigDialog:AddToBlizOptions("MusicBox", "MusicBox")
+	self.optionsFrames = optionsFrames
 	MusicBox.db.RegisterCallback(MusicBox, "OnProfileChanged", "PLAYER_UPDATE_RESTING")
 	MusicBox.db.RegisterCallback(MusicBox, "OnProfileCopied", "PLAYER_UPDATE_RESTING")
 	MusicBox.db.RegisterCallback(MusicBox, "OnProfileReset", "PLAYER_UPDATE_RESTING")

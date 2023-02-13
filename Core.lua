@@ -9,6 +9,12 @@ function MusicBox:UpdateWorld(pt)
 	if playlist then
 		self:PlayPlaylist(self:GetPlaylist(playlist))
 	else
+		local mainlinefunction = MusicBox.mainlinefunction
+		if mainlinefunction then
+			if mainlinefunction() then
+				return
+			end
+		end
 		self:Stop()
 	end
 end

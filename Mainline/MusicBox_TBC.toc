@@ -1,0 +1,7 @@
+## Interface: 20504
+## Author: cqwrteur
+## Title: MusicBox Mainline
+## SavedVariables: MusicBoxDB
+## Version: @project-timestamp@
+
+mainline.lua

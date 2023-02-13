@@ -7,13 +7,14 @@ local AceConfigCmd = LibStub("AceConfigCmd-3.0")
 --------------------------------------------------------------------------------------
 
 function MusicBox:OnInitialize()
+	local ismainline = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 	self.db = LibStub("AceDB-3.0"):New("MusicBoxDB",
 	{
 		profile = 
 		{
 			playlists = {},			
 			playing = true,
-			game_music = true
+			game_music = ismainline or nil
 		}
 	},true)
 	self.temp_playlist = {}
