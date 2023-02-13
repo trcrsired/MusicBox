@@ -11,7 +11,13 @@ function MusicBox:PlayMusic(music)
 		local length = music[2]
 		if 2 < length then
 			self.now_playing = music
-			PlayMusic(music[1])
+			local toplay = music[4]
+			if toplay == nil then
+				toplay = music[1]
+			else
+				toplay = format("%s/%s",toplay,music[3])
+			end
+			PlayMusic(toplay)
 			self.timer = self:ScheduleTimer("TimerFeedBack",length-2)
 		else
 			self.timer = self:ScheduleTimer("TimerFeedBack",0)
