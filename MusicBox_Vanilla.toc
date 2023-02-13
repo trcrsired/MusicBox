@@ -3,6 +3,7 @@
 ## Title: MusicBox
 ## SavedVariables: MusicBoxDB
 ## Version: @project-date-iso@
+## OptionalDeps: Ace3
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua

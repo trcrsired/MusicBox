@@ -3,6 +3,7 @@
 ## Title: MusicBox Icon
 ## Dependencies: MusicBox
 ## SavedVariablesPerCharacter: MusicBox_IconCharacterDB
+## OptionalDeps: LibDataBroker-1.1, LibDBIcon-1.0
 
 #@no-lib-strip@
 Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
