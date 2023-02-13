@@ -26,8 +26,8 @@ function MusicBox:OnInitialize()
 	self:SecureHook("SetCVar")
 	self:SecureHook("PlayMusic","HookPlayMusic")
 	self:SecureHook("StopMusic","HookStopMusic")
-	if self.db.profile.mainline_music and ismainline then
-		LoadAddOn("MusicBox_Mainline")
+	if self.db.profile.mainline_music and not ismainline then
+		LoadAddOn("MusicBox_MainlineMusic")
 	end
 end
 

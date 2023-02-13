@@ -51,4 +51,4 @@ move-folders:
 	MusicBox/Icon: MusicBox_Icon
 	MusicBox/Options: MusicBox_Options
 	MusicBox/GameMusic: MusicBox_GameMusic
-	MusicBox/Mainline: MusicBox_Mainline
+	MusicBox/MainlineMusic: MusicBox_MainlineMusic
