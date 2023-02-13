@@ -33,6 +33,7 @@ function MusicBox:OnEnable()
 	self:Stop()
 	self:UpdateWorld(self:GetProfileType())
 	self:RegisterEvent("LOADING_SCREEN_DISABLED")
+	C_Timer.After(2.0,function() MusicBox:PLAYER_UPDATE_RESTING() end)
 end
 
 function MusicBox:GetInstanceType()
