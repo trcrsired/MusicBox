@@ -2,7 +2,7 @@
 ## Author: cqwrteur
 ## Title: MusicBox
 ## SavedVariables: MusicBoxDB
-## Version: @project-timestamp@
+## Version: @project-date-iso@
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua

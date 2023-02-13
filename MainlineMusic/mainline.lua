@@ -88,9 +88,9 @@ local zoneid_music_map =
 {"sound\\music\\battleforazeroth\\mus_80_vulpera_2_h.mp3",75.801}
 }
 }
-
+local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
 function MusicBox.mainlinefunction()
-	local mapID = C_Map.GetBestMapForUnit("player")
+	local mapID = C_Map_GetBestMapForUnit("player")
 	if mapID == nil then
 		return
 	end
@@ -98,10 +98,7 @@ function MusicBox.mainlinefunction()
 	if zonemusic == nil then
 		return
 	end
-	local zmm = zonemusic[mapID]
-	if zmm == nil then
-		return
-	end
-	MusicBox:PlayPlaylist(zmm)
+
+	MusicBox:PlayPlaylist(zonemusic)
 	return true
 end

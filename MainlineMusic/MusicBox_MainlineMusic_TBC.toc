@@ -2,6 +2,5 @@
 ## Author: cqwrteur
 ## Title: MusicBox Mainline Music
 ## SavedVariables: MusicBoxDB
-## Version: @project-timestamp@
 
 mainline.lua
