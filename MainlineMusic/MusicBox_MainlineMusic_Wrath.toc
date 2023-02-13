@@ -1,6 +1,5 @@
 ## Interface: 30401
 ## Author: cqwrteur
-## Title: MusicBox Mainline
-## SavedVariables: MusicBoxDB
+## Title: MusicBox Mainline Music
 
 mainline.lua

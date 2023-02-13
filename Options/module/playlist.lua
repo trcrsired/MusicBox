@@ -25,9 +25,6 @@ local mainline_music_option_tb =
 	width = "full",
 	type = "toggle",
 	set = function(_,val)
-		if not val then
-			val = nil
-		end
 		MusicBox.db.profile.mainline_music = val
 		MusicBox:PLAYER_UPDATE_RESTING()
 	end,
@@ -76,9 +73,6 @@ local playlist =
 			width = "full",
 			set = function(_,val)
 				MusicBox.db.profile.game_music_use_path = val
-				if val then
-					MusicBox:OnEnable()
-				end
 			end,
 			get = function()
 				return MusicBox.db.profile.game_music_use_path
