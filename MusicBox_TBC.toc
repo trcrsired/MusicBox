@@ -1,4 +1,4 @@
-## Interface: 100005
+## Interface: 20504
 ## Author: cqwrteur
 ## Title: MusicBox
 ## SavedVariables: MusicBoxDB
