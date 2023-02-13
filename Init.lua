@@ -26,6 +26,9 @@ function MusicBox:OnInitialize()
 	self:SecureHook("SetCVar")
 	self:SecureHook("PlayMusic","HookPlayMusic")
 	self:SecureHook("StopMusic","HookStopMusic")
+	if self.db.profile.mainline_music and ismainline then
+		LoadAddOn("MusicBox_Mainline")
+	end
 end
 
 function MusicBox:ChatCommand(input)
