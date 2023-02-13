@@ -1,0 +1,9 @@
+## Interface: 11403
+## Author: cqwrteur
+## Title: MusicBox
+## SavedVariables: MusicBoxDB
+
+
+Init.lua
+Player.lua
+Core.lua
