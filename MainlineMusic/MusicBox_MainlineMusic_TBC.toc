@@ -1,6 +1,6 @@
 ## Interface: 20504
 ## Author: cqwrteur
-## Title: MusicBox Mainline
+## Title: MusicBox Mainline Music
 ## SavedVariables: MusicBoxDB
 ## Version: @project-timestamp@
 
