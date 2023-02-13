@@ -28,10 +28,10 @@ externals:
 	Libs/AceHook-3.0:
 		url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceHook-3.0
 		tag: latest
-	Options/Libs/AceDBOptions-3.0:
+	MusicBox_Options/Libs/AceDBOptions-3.0:
 		url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceDBOptions-3.0
 		tag: latest
-	Options/Libs/AceLocale-3.0:
+	MusicBox_Options/Libs/AceLocale-3.0:
 		url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceLocale-3.0
 		tag: latest
 	Libs/AceGUI-3.0:
@@ -40,10 +40,10 @@ externals:
 	Libs/AceGUI-3.0-SharedMediaWidgets:
 		url: svn://svn.wowace.com/wow/ace-gui-3-0-shared-media-widgets/mainline/trunk/AceGUI-3.0-SharedMediaWidgets
 		tag: latest
-	Icon/Libs/LibDataBroker-1.1:
+	MusicBox_Icon/Libs/LibDataBroker-1.1:
 		url: https://repos.wowace.com/wow/libdbicon-1-0/trunk/LibDataBroker-1.1
 		tag: latest
-	Icon/Libs/LibDBIcon-1.0:
+	MusicBox_Icon/Libs/LibDBIcon-1.0:
 		url: https://repos.wowace.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
 		tag: latest
 
