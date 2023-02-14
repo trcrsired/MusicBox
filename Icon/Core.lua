@@ -61,16 +61,52 @@ local function convert_sec_to_xx_xx_xx(value)
 	return string_format("%02d:%02d:%02d",hour,minute,sec)
 end
 
+local expansion_names =
+{
+"Vanilla",
+"The Burning Crusade",
+"Wrath of the Lich King",
+"Cataclysm",
+"Mists of Pandaria",
+"Warlords of Draenor",
+"Legion",
+"Battle For Azeroth",
+"Shadowlands",
+"Dragonflight",
+}
+
+local expansion_list = 
+{
+["sound/music/cataclysm"] = 4,
+["sound/music/pandaria"] = 5,
+["sound/music/draenor"] = 6,
+["sound/music/legion"] = 7,
+["sound/music/battleforazeroth"] = 8,
+["sound/music/shadowlands"] = 9,
+["sound/music/dragonflight"] = 10,
+}
+
 function MusicBox_Icon:TimerFeedback()
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine("MusicBox",1,1,1)
 	local now_playing = MusicBox.now_playing
 	if now_playing then
+		local nowplaying1 = now_playing[1]
 		local nowplaying3 = now_playing[3]
 		if nowplaying3 then
-			GameTooltip:AddDoubleLine(now_playing[1],nowplaying3,nil,nil,nil,0.5,0.5,0.8,true)
+			GameTooltip:AddDoubleLine(nowplaying1,nowplaying3,nil,nil,nil,0.5,0.5,0.8,true)
 		else
-			GameTooltip:AddLine(now_playing[1],0.5,0.5,0.8,true)
+			GameTooltip:AddLine(nowplaying1,0.5,0.5,0.8,true)
+		end
+		local nowplaying4 = now_playing[4]
+		if nowplaying4 then
+			local expansion_version = expansion_list[nowplaying4]
+			if expansion_version == nil then
+				GameTooltip:AddDoubleLine(" ",nowplaying4)
+			else
+				local expansion_name = expansion_names[expansion_version]
+				GameTooltip:AddDoubleLine(expansion_version,expansion_name,nil,nil,nil,0.5,0.5,0.8,true)
+			end
 		end
 		if MusicBox.timer then
 			local tleft = MusicBox:TimeLeft(MusicBox.timer)
@@ -104,5 +140,7 @@ end
 function MusicBox_Icon:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MusicBox_IconCharacterDB", {profile = {}})
 	self.ldb = LDB
-	self.icon = LibStub("LibDBIcon-1.0"):Register("MusicBox",self.ldb,self.db.profile)
+	if not MusicBox.db.profile.disable_icon then
+		self.icon = LibStub("LibDBIcon-1.0"):Register("MusicBox",self.ldb,self.db.profile)
+	end
 end

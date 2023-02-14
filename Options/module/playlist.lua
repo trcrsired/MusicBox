@@ -78,6 +78,24 @@ local playlist =
 				return MusicBox.db.profile.game_music_use_path
 			end
 		},
+		icon =
+		{
+			order = get_order(),
+			name = L.Icon,
+			type = "toggle",
+			width = "full",
+			set = function(_,val)
+				if val then
+					val = nil
+				else
+					val = true
+				end
+				MusicBox.db.profile.disable_icon = val
+			end,
+			get = function()
+				return not MusicBox.db.profile.disable_icon
+			end
+		},
 		Add =
 		{
 			order = get_order(),
