@@ -1,4 +1,4 @@
-## Interface: 100107
+﻿## Interface: 100100
 ## Author: cqwrteur
 ## Title: MusicBox GameMusic
 ## Dependencies: MusicBox
