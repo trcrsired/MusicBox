@@ -4,6 +4,22 @@ local IsResting = IsResting
 local UnitIsGhost = UnitIsGhost
 --------------------------------------------------------------------------------------
 
+function MusicBox:PlayMainlineMusic()
+	local mainline_music = profile.mainline_music
+	if mainline_music then
+		local mainlinefunction = MusicBox.mainlinefunction
+		if mainlinefunction == nil then
+			LoadAddOn("MusicBox_MainlineMusic")
+			mainlinefunction = MusicBox.mainlinefunction
+		end
+		if mainlinefunction then
+			if mainlinefunction() then
+				return
+			end
+		end
+	end
+end
+
 function MusicBox:UpdateWorld(pt)
 	local profile = self.db.profile
 	local playlist = profile[pt]
@@ -11,19 +27,7 @@ function MusicBox:UpdateWorld(pt)
 		self:PlayPlaylist(self:GetPlaylist(playlist))
 	else
 		if not UnitIsGhost("player") then
-			local mainline_music = profile.mainline_music
-			if mainline_music then
-				local mainlinefunction = MusicBox.mainlinefunction
-				if mainlinefunction == nil then
-					LoadAddOn("MusicBox_MainlineMusic")
-					mainlinefunction = MusicBox.mainlinefunction
-				end
-				if mainlinefunction then
-					if mainlinefunction() then
-						return
-					end
-				end
-			end
+			self:PlayMainlineMusic()
 		end
 		self:Stop()
 	end
@@ -36,6 +40,7 @@ function MusicBox:OnEnable()
 	self:Stop()
 	self:UpdateWorld(self:GetProfileType())
 	self:RegisterEvent("LOADING_SCREEN_DISABLED")
+	self:RegisterEvent("PLAYER_UNGHOST","PlayMainlineMusic")
 	C_Timer.After(2.0,function() MusicBox:PLAYER_UPDATE_RESTING() end)
 end
 
