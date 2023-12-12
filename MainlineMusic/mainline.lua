@@ -1,10 +1,22 @@
 local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 
+--[[
+Todo: Revamp this system
+]]
+
 local zoneid_music_map =
 {
-[1453] = --stormwind
+[1429] = -- Elwynn Forest
 {
-{53202,54.911,"stormwind01-moment.mp3","sound/music/citymusic/stormwind"},
+{
+{53492,55.802,"dayforest01.mp3","sound/music/zonemusic/forest"},
+{53493,72.625,"dayforest02.mp3","sound/music/zonemusic/forest"},
+{53494,64.814,"dayforest03.mp3","sound/music/zonemusic/forest"},
+{441849,122.732,"mus_westfall_gu02.mp3","sound/music/cataclysm"}}
+},
+[1453] = --Stormwind
+{
+{{53202,54.911,"stormwind01-moment.mp3","sound/music/citymusic/stormwind"},
 {53203,35.658,"stormwind02-moment.mp3","sound/music/citymusic/stormwind"},
 {53204,70.016,"stormwind03-moment.mp3","sound/music/citymusic/stormwind"},
 {53205,62.408,"stormwind04-zone.mp3","sound/music/citymusic/stormwind"},
@@ -55,11 +67,11 @@ local zoneid_music_map =
 {1417247,115.962,"mus_70_anduinpt1_h2.mp3","sound/music/legion"},
 {1417248,111.629,"mus_70_anduinpt2_b.mp3","sound/music/legion"},
 {1417249,54.418,"mus_70_anduinpt2_c.mp3","sound/music/legion"},
-{1417250,123.426,"mus_70_anduinpt2_h.mp3","sound/music/legion"},
+{1417250,123.426,"mus_70_anduinpt2_h.mp3","sound/music/legion"}}
 },
 [1454] = --orgrimmar
 {
-{53197,68.991,"orgrimmar01-moment.mp3","sound/music/citymusic/orgrimmar"},
+{{53197,68.991,"orgrimmar01-moment.mp3","sound/music/citymusic/orgrimmar"},
 {53198,68.943,"orgrimmar01-zone.mp3","sound/music/citymusic/orgrimmar"},
 {53199,62.386,"orgrimmar02-moment.mp3","sound/music/citymusic/orgrimmar"},
 {53200,62.386,"orgrimmar02-zone.mp3","sound/music/citymusic/orgrimmar"},
@@ -88,11 +100,12 @@ local zoneid_music_map =
 {2145689,95.794,"mus_80_vulpera_1_c.mp3","sound/music/battleforazeroth"},
 {2145690,123.956,"mus_80_vulpera_1_h.mp3","sound/music/battleforazeroth"},
 {2179161,39.026,"mus_80_vulpera_2_d.mp3","sound/music/battleforazeroth"},
-{2145694,75.801,"mus_80_vulpera_2_h.mp3","sound/music/battleforazeroth"},
+{2145694,75.801,"mus_80_vulpera_2_h.mp3","sound/music/battleforazeroth"}}
 }
 }
 
 local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
+local C_DateAndTime_GetCurrentCalendarTime = C_DateAndTime.GetCurrentCalendarTime
 
 function MusicBox.mainlinefunction()
 	local mapID = C_Map_GetBestMapForUnit("player")
@@ -103,6 +116,16 @@ function MusicBox.mainlinefunction()
 	if zonemusic == nil then
 		return
 	end
-	MusicBox:PlayPlaylist(zonemusic)
+	local zonemusictp = zonemusic[1]
+	if C_DateAndTime_GetCurrentCalendarTime and zonemusic[2] then
+		local currentCalenderTime = C_DateAndTime.GetCurrentCalendarTime()
+		if currentCalenderTime then
+			local hour = currentCalenderTime.hour
+			if hour < 6 or 18 <= hour then -- isnight
+				zonemusictp = zonemusic[2]
+			end
+		end
+	end
+	MusicBox:PlayPlaylist(zonemusictp)
 	return true
 end
