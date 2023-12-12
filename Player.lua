@@ -111,7 +111,10 @@ function MusicBox:PlayPlaylist(pl)
 end
 function MusicBox:Start()
 	local music_enable = GetCVar("Sound_EnableMusic")
-	if (music_enable==true or music_enable==1 or music_enable == "1") and self.db.profile.playing == true and current_playlist then
+	if music_enable==true or music_enable==1 or music_enable == "1" then
+		music_enable = true
+	end
+	if music_enable and self.db.profile.playing == true and current_playlist then
 		shuffle_order_playlist(current_playlist)
 		self:TimerFeedBack()
 	else
@@ -140,8 +143,12 @@ function MusicBox:HookStopMusic()
 	self:Start()
 end
 
-function MusicBox:SetCVar(name)
+function MusicBox:SetCVar(name, val)
 	if name == "Sound_EnableMusic" then
 		self:Start()
+	elseif name == "Sound_MusicVolume" then
+		if val == 0 or val == "0" then
+			self:StopMusic()
+		end
 	end
 end
