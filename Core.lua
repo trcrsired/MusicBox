@@ -5,7 +5,7 @@ local UnitIsGhost = UnitIsGhost
 --------------------------------------------------------------------------------------
 
 function MusicBox:PlayMainlineMusic()
-	local mainline_music = profile.mainline_music
+	local mainline_music = self.db.profile.mainline_music
 	if mainline_music then
 		local mainlinefunction = MusicBox.mainlinefunction
 		if mainlinefunction == nil then
