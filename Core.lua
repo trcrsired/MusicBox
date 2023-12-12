@@ -1,6 +1,7 @@
 local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 local GetInstanceInfo = GetInstanceInfo
 local IsResting = IsResting
+local UnitIsGhost = UnitIsGhost
 --------------------------------------------------------------------------------------
 
 function MusicBox:UpdateWorld(pt)
@@ -9,16 +10,18 @@ function MusicBox:UpdateWorld(pt)
 	if playlist then
 		self:PlayPlaylist(self:GetPlaylist(playlist))
 	else
-		local mainline_music = profile.mainline_music
-		if mainline_music then
-			local mainlinefunction = MusicBox.mainlinefunction
-			if mainlinefunction == nil then
-				LoadAddOn("MusicBox_MainlineMusic")
-				mainlinefunction = MusicBox.mainlinefunction
-			end
-			if mainlinefunction then
-				if mainlinefunction() then
-					return
+		if not UnitIsGhost("player") then
+			local mainline_music = profile.mainline_music
+			if mainline_music then
+				local mainlinefunction = MusicBox.mainlinefunction
+				if mainlinefunction == nil then
+					LoadAddOn("MusicBox_MainlineMusic")
+					mainlinefunction = MusicBox.mainlinefunction
+				end
+				if mainlinefunction then
+					if mainlinefunction() then
+						return
+					end
 				end
 			end
 		end
