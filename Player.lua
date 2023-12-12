@@ -146,11 +146,5 @@ end
 function MusicBox:SetCVar(name, val)
 	if name == "Sound_EnableMusic" then
 		self:Start()
-	elseif name == "Sound_MusicVolume" then
-		if val == 0 or val == "0" then
-			self:StopMusic()
-		elseif not self.db.profile.playing then
-			self:Start()
-		end
 	end
 end
