@@ -149,6 +149,8 @@ function MusicBox:SetCVar(name, val)
 	elseif name == "Sound_MusicVolume" then
 		if val == 0 or val == "0" then
 			self:StopMusic()
+		elseif not self.db.profile.playing then
+			self:Start()
 		end
 	end
 end
