@@ -14,7 +14,7 @@ function MusicBox:PlayMainlineMusic()
 		end
 		if mainlinefunction then
 			if mainlinefunction() then
-				return
+				return true
 			end
 		end
 	end
@@ -27,10 +27,16 @@ function MusicBox:UpdateWorld(pt)
 		self:PlayPlaylist(self:GetPlaylist(playlist))
 	else
 		if not UnitIsGhost("player") then
-			self:PlayMainlineMusic()
+			if self:PlayMainlineMusic() then
+				return
+			end
 		end
 		self:Stop()
 	end
+end
+
+function MusicBox:PLAYER_UNGHOST()
+	self:PlayMainlineMusic()
 end
 
 function MusicBox:OnEnable()
@@ -40,7 +46,7 @@ function MusicBox:OnEnable()
 	self:Stop()
 	self:UpdateWorld(self:GetProfileType())
 	self:RegisterEvent("LOADING_SCREEN_DISABLED")
-	self:RegisterEvent("PLAYER_UNGHOST","PlayMainlineMusic")
+	self:RegisterEvent("PLAYER_UNGHOST")
 	C_Timer.After(2.0,function() MusicBox:PLAYER_UPDATE_RESTING() end)
 end
 
