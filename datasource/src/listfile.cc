@@ -79,14 +79,12 @@ local atp=MB.AddTempPlaylist
 	::std::size_t s{SIZE_MAX};
 	for(const auto &ele : vec)
 	{
-		if(ele.first==s)
-			print(obf,",{");
-		else
+		if(ele.first!=s)
 		{
 			if(s!=SIZE_MAX)
 				print(obf,"})\n");
 			s=ele.first;
-			print(obf,"atp(MB,\"",ele.first,"\",{");
+			print(obf,"atp(MB,",ele.first,",{");
 		}
 		print(obf,ele.second,",");
 	}

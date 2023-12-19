@@ -1,37 +1,80 @@
+struct UiMapAssignmentEntrySimple
+{
+::std::string Region_0,Region_1,Region_2,Region_3,Region_4,Region_5,ID;
+::std::uint_least64_t areaid;
+};
+
+namespace dataparser
+{
+
+inline void add_uimapassignment_csv_to_tb(auto &uitablecsv,auto& assignments,auto& uimapsidtb)
+{
+	for(auto& row : uitablecsv)
+	{
+		auto uimapid{row["UiMapID"].template get<::std::uint_least64_t>()};
+		auto areaid{row["AreaID"].template get<::std::uint_least64_t>()};
+		if(uimapid!=0&&areaid!=0)
+		{
+			uimapsidtb[uimapid].push_back(::std::ranges::size(assignments));
+			assignments.push_back(
+				UiMapAssignmentEntrySimple{
+						std::string{row["Region_0"].get_sv()},
+						std::string{row["Region_1"].get_sv()},
+						std::string{row["Region_2"].get_sv()},
+						std::string{row["Region_3"].get_sv()},
+						std::string{row["Region_4"].get_sv()},
+						std::string{row["Region_5"].get_sv()},
+						std::string{row["ID"].get_sv()},
+						areaid});
+		}
+	}	
+}
+}
+
 int main()
 {
 	using namespace ::fast_io::io;
 	using namespace ::std::string_view_literals;
 	::fast_io::dir_file retaildir(u8"retail");
-	::std::unordered_set<::std::uint_least64_t> uimapsidtb;
+	::std::map<::std::uint_least64_t,::fast_io::vector<::std::size_t>> uimapsidtb;
+	{
+	::std::vector<UiMapAssignmentEntrySimple> assignments;
 	{
 	::csv::CSVReader tablecsv("UiMapAssignment.csv");
-	::fast_io::obuf_file tablelua(at(retaildir),u8"UiMapIDToAreaID.lua");
-	print(tablelua,R"(local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
-MusicBox.UiMapIDToAreaID=
-{)");
-	for(auto const & row : tablecsv)
-	{
-		auto uimapid{row["UiMapID"].get<::std::uint_least64_t>()};
-		auto areaid{row["AreaID"].get<::std::uint_least64_t>()};
-		if(areaid!=0&&uimapid!=0)
-		{
-			uimapsidtb.insert(uimapid);
-			print(tablelua,"[",uimapid,"]=",areaid,",\n");
-		}
+	dataparser::add_uimapassignment_csv_to_tb(tablecsv,assignments,uimapsidtb);
 	}
-	::csv::CSVReader tablecsvclassic("UiMapAssignment_Classic.csv");
-	for(auto const & row : tablecsvclassic)
 	{
-		auto uimapid{row["UiMapID"].get<::std::uint_least64_t>()};
-		auto areaid{row["AreaID"].get<::std::uint_least64_t>()};
-		if(areaid!=0&&uimapid!=0)
+	::csv::CSVReader tablecsv("UiMapAssignment_Classic.csv");
+	dataparser::add_uimapassignment_csv_to_tb(tablecsv,assignments,uimapsidtb);
+	}
+	::fast_io::obuf_file tablelua(at(retaildir),u8"UiMapIDToAreaInfos.lua");
+	print(tablelua,R"(local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
+MusicBox.UiMapIDToAreaInfos=
+{)");
+
+	for(auto const & e : uimapsidtb)
+	{
+		print(tablelua ,"[",e.first,"]={\n");
+		::std::unordered_set<::std::uint_least64_t> areaids;
+		for(auto const & e1 : e.second)
 		{
-			if(!uimapsidtb.contains(uimapid))
+			auto &ref{assignments[e1]};
+			auto areaid{ref.areaid};
+			if(!areaids.count(areaid))
 			{
-				print(tablelua,"[",uimapid,"]=",areaid,",\n");
+				print(tablelua,"{",
+					areaid,",",
+					ref.Region_0,",",
+					ref.Region_1,",",
+					ref.Region_2,",",
+					ref.Region_3,",",
+					ref.Region_4,",",
+					ref.Region_5,",",
+					ref.ID,"},\n");
+				areaids.insert(areaid);
 			}
 		}
+		print(tablelua ,"}\n");
 	}
 print(tablelua,"}\n");
 	}
@@ -58,7 +101,9 @@ MusicBox.AreaIDMusicInfo=
 			zonesoundkits.insert(ZoneMusicid);
 		}
 		}
-		print(tablelua,"[",row["ID"].get_sv(),"]={",
+		print(tablelua,"[",row["ID"].get_sv(),"]={\"",
+		row["ZoneName"].get_sv(),"\",\"",
+		row["AreaName_lang"].get_sv(),"\",",
 		row["ZoneMusic"].get_sv(),",",
 		row["UwZoneMusic"].get_sv(),",",
 		row["IntroSound"].get_sv(),",",
