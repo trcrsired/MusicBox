@@ -1,0 +1,2 @@
+UiMapAssignment  --AreaID--> [ID] AreaTable --[ZoneMusic/UwZoneMusic]---------------------------------------------------------\
+					    --[IntroSound]--> ZoneIntroMusicTable[SoundID,Priority,MinDelayMinutes] --SoundID--> SoundKitEntry[SoundKitID] --> FileDataID
