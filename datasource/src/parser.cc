@@ -131,24 +131,31 @@ MusicBox.AreaIDMusicInfo=
 		if(fdcl!=areatbclassic.cend())
 		{
 			auto const& classicentry{fdcl->second};
-			auto test_with_p([&](::std::uint_least64_t val,::std::uint_least64_t classicval)
+			auto test_with_p([&](::std::uint_least64_t val,::std::uint_least64_t classicval,bool ed=false)
 			{
 				bool const needtable{val!=classicval&&val!=0&&classicval!=0};
 				if(needtable)
 				{
 					print(tablelua,"{");
 				}
+				if(val==0&&classicval!=0)
+				{
+					val=classicval;
+				}
 				print(tablelua,val);
 				if(needtable)
 				{
-					print(tablelua,classicval,"}");
+					print(tablelua,",",classicval,"}");
 				}
-				print(tablelua,",");
+				if(!ed)
+				{
+					print(tablelua,",");
+				}
 			});
 			test_with_p(ZoneMusicid,classicentry.zonemusic);
 			test_with_p(UwZoneMusicid,classicentry.uwzonemusic);
 			test_with_p(introsound,classicentry.introsound);
-			test_with_p(uwintrosound,classicentry.uwintrosound);
+			test_with_p(uwintrosound,classicentry.uwintrosound,true);
 		}
 		else
 		{
