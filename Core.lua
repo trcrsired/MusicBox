@@ -39,6 +39,10 @@ function MusicBox:PLAYER_UNGHOST()
 	self:PlayMainlineMusic()
 end
 
+function MusicBox:ZONE_CHANGED_NEW_AREA()
+	self:UpdateWorld(self:GetProfileType())
+end
+
 function MusicBox:OnEnable()
 	if self.db.profile.game_music or self.db.profile.mainline_music then
 		LoadAddOn("MusicBox_GameMusic")
@@ -46,8 +50,9 @@ function MusicBox:OnEnable()
 	self:Stop()
 	self:UpdateWorld(self:GetProfileType())
 	self:RegisterEvent("LOADING_SCREEN_DISABLED")
-	self:RegisterEvent("PLAYER_UNGHOST")
-	C_Timer.After(2.0,function() MusicBox:PLAYER_UPDATE_RESTING() end)
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+	self:RegisterEvent("PLAYER_UNGHOST","ZONE_CHANGED_NEW_AREA")
+--	C_Timer.After(2.0,function() MusicBox:PLAYER_UPDATE_RESTING() end)
 end
 
 function MusicBox:GetInstanceType()
@@ -94,9 +99,6 @@ function MusicBox:RemovePlaylist(pname)
 	self.db.profile.playlists[pname] = nil
 end
 
-function MusicBox:PLAYER_UPDATE_RESTING()
-	self:UpdateWorld(self:GetProfileType())
-end
 function MusicBox:LOADING_SCREEN_DISABLED()
 	self:Stop()
 	self:UpdateWorld(self:GetProfileType())

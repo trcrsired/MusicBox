@@ -4,9 +4,9 @@ struct UiMapAssignmentEntrySimple
 ::std::uint_least64_t areaid;
 };
 
-struct AreaTableEntry_Classic
+struct AreaTableEntry
 {
-::std::uint_least64_t zonemusic,uwzonemusic,introsound,uwintrosound;
+::std::uint_least64_t parentareaid,zonemusic,uwzonemusic,introsound,uwintrosound;
 };
 
 namespace dataparser
@@ -34,6 +34,39 @@ inline void add_uimapassignment_csv_to_tb(auto &uitablecsv,auto& assignments,aut
 		}
 	}	
 }
+
+struct areatb_result
+{
+::std::unordered_map<::std::uint_least64_t,AreaTableEntry> areatb;
+::std::unordered_map<::std::uint_least64_t,::fast_io::vector<::std::size_t>> childrens;
+::std::unordered_map<::std::uint_least64_t,::std::unordered_map<::std::string,::std::size_t>> subzonesmaps;
+};
+
+inline areatb_result create_area_table(char const* areatbname)
+{
+	::csv::CSVReader tablecsv_classic(areatbname);
+	::std::unordered_map<::std::uint_least64_t,AreaTableEntry> tb;
+	::std::unordered_map<::std::uint_least64_t,::fast_io::vector<::std::uint_least64_t>> childrens;
+	::std::unordered_map<::std::uint_least64_t,::std::unordered_map<::std::string,::std::uint_least64_t>> subzonesmaps;
+	for(auto const & row : tablecsv_classic)
+	{
+		auto id = row["ID"].get<::std::uint_least64_t>();
+		auto zonemusic = row["ZoneMusic"].get<::std::uint_least64_t>();
+		auto uwzonemusic = row["UwZoneMusic"].get<::std::uint_least64_t>();
+		auto introsound = row["IntroSound"].get<::std::uint_least64_t>();
+		auto uwintrosound = row["UwIntroSound"].get<::std::uint_least64_t>();
+		tb[id]={zonemusic,uwzonemusic,introsound,uwintrosound};
+		auto parentid = row["ParentAreaID"].get<::std::uint_least64_t>();
+		auto zonename = row["ZoneName"].get_sv()
+		if(parentid)
+		{
+			childrens[parentid].push_back(id);
+			subzonesmaps[parentid][]
+		}
+	}
+	return {::std::move(tb),::std::move(childrens),::std::move(subzonemaps)};
+}
+
 }
 
 int main()
@@ -85,21 +118,13 @@ print(tablelua,"}\n");
 	}
 	::std::unordered_set<::std::uint_least64_t> zonesoundkits;
 	{
-	::csv::CSVReader tablecsv_classic("AreaTable_Classic.csv");
-	::std::unordered_map<::std::uint_least64_t,AreaTableEntry_Classic> areatbclassic;
-	for(auto const & row : tablecsv_classic)
-	{
-		auto id = row["ID"].get<::std::uint_least64_t>();
-		auto zonemusic = row["ZoneMusic"].get<::std::uint_least64_t>();
-		auto uwzonemusic = row["UwZoneMusic"].get<::std::uint_least64_t>();
-		auto introsound = row["IntroSound"].get<::std::uint_least64_t>();
-		auto uwintrosound = row["UwIntroSound"].get<::std::uint_least64_t>();
-		areatbclassic[id]=AreaTableEntry_Classic{zonemusic,uwzonemusic,introsound,uwintrosound};
-	}
+
+	auto [classicareatb,classicareasons] = dataparser::create_area_table("AreaTable_Classic.csv");
+	auto [retailareatb,retailareasons] = dataparser::create_area_table("AreaTable.csv");
 
 	::fast_io::obuf_file tablelua(at(retaildir),u8"AreaIDMusicInfo.lua");
 	::csv::CSVReader tablecsv("AreaTable.csv");
-	
+
 	print(tablelua,R"(local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 MusicBox.AreaIDMusicInfo=
 {)");

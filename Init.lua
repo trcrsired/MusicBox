@@ -21,7 +21,7 @@ function MusicBox:OnInitialize()
 	self.temp_playlist = {}
 	self:RegisterChatCommand("MusicBox", "ChatCommand")
 	self:RegisterChatCommand("MB", "ChatCommand")
-	self:RegisterEvent("PLAYER_UPDATE_RESTING")
+--	self:RegisterEvent("PLAYER_UPDATE_RESTING")
 	self:RegisterEvent("PET_BATTLE_CLOSE","LOADING_SCREEN_DISABLED")
 	self:RegisterEvent("CINEMATIC_STOP","LOADING_SCREEN_DISABLED")
 	self:RegisterEvent("SOUND_DEVICE_UPDATE","LOADING_SCREEN_DISABLED")
