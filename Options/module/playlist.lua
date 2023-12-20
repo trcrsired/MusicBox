@@ -54,7 +54,7 @@ local playlist =
 				return MusicBox.db.profile.game_music
 			end
 		},
-		mainline_music = (WOW_PROJECT_MAINLINE~= WOW_PROJECT_ID) and mainline_music_option_tb or nil,
+		mainline_music = mainline_music_option_tb,
 		temp =
 		{
 			order = get_order(),
