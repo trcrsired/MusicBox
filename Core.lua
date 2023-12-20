@@ -9,7 +9,7 @@ function MusicBox:PlayMainlineMusic()
 	if mainline_music then
 		local mainlinefunction = MusicBox.mainlinefunction
 		if mainlinefunction == nil then
-			LoadAddOn("MusicBox_MainlineMusic")
+			LoadAddOn("MusicBox_GameMusic")
 			mainlinefunction = MusicBox.mainlinefunction
 		end
 		if mainlinefunction then
@@ -40,7 +40,7 @@ function MusicBox:PLAYER_UNGHOST()
 end
 
 function MusicBox:OnEnable()
-	if self.db.profile.game_music then
+	if self.db.profile.game_music or self.db.profile.mainline_music then
 		LoadAddOn("MusicBox_GameMusic")
 	end
 	self:Stop()
@@ -81,16 +81,6 @@ function MusicBox:AddPlaylist(pname,pt)
 end
 function MusicBox:AddTempPlaylist(pname,pt)
 	self.temp_playlist[pname] = pt
-	if self.db.profile.game_music_use_path then
-		local tconcat = table.concat
-		for i=1,#pt do
-			local pti = pt[i]
-			local pti3 = pti[3]
-			if pti3 then
-				pti[4] = pname
-			end
-		end
-	end
 end
 function MusicBox:GetPlaylist(pname)
 	local pl = self.db.profile.playlists[pname]

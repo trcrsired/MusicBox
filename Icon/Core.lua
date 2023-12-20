@@ -91,26 +91,45 @@ function MusicBox_Icon:TimerFeedback()
 	GameTooltip:AddLine("MusicBox",1,1,1)
 	local now_playing = MusicBox.now_playing
 	if now_playing then
-		local nowplaying1 = now_playing[1]
-		local nowplaying3 = now_playing[3]
-		if nowplaying3 then
-			GameTooltip:AddDoubleLine(nowplaying1,nowplaying3,nil,nil,nil,0.5,0.5,0.8,true)
+		local musicname = "Unknown"
+		local duration = 0
+		local playlistname
+		local expansionname
+		if type(now_playing) == "number" then
+			local listfile_music = MusicBox.listfile_music
+			local listfile_music_prefix = MusicBox.listfile_music_prefix
+			local musicinfo = listfile_music[now_playing]
+			if musicinfo then
+				musicname = musicinfo[2]
+				duration = musicinfo[3]
+				playlistname = listfile_music_prefix[musicinfo[1]]
+				expansionname = playlistname
+			else
+				GameTooltip:Show()
+				return
+			end
 		else
-			GameTooltip:AddLine(nowplaying1,0.5,0.5,0.8,true)
+			musicname = now_playing[1]
+			duration = now_playing[2]
+			playlistname = now_playing[3]
 		end
-		local nowplaying4 = now_playing[4]
-		if nowplaying4 then
-			local expansion_version = expansion_list[nowplaying4]
+		if expansionname then
+			local expansion_version = expansion_list[expansionname]
 			if expansion_version == nil then
-				GameTooltip:AddDoubleLine(" ",nowplaying4)
+				GameTooltip:AddDoubleLine("Pre-Cata",expansionname,nil,nil,nil,0.5,0.5,0.8,true)
 			else
 				local expansion_name = expansion_names[expansion_version]
 				GameTooltip:AddDoubleLine(expansion_version,expansion_name,nil,nil,nil,0.5,0.5,0.8,true)
 			end
 		end
+		if playlistname then
+			GameTooltip:AddDoubleLine(musicname,playlistname,nil,nil,nil,0.5,0.5,0.8,true)
+		else
+			GameTooltip:AddLine(musicname,0.5,0.5,0.8,true)
+		end
 		if MusicBox.timer then
 			local tleft = MusicBox:TimeLeft(MusicBox.timer)
-			local tt = now_playing[2]
+			local tt = duration
 			GameTooltip:AddDoubleLine(convert_sec_to_xx_xx_xx(math_floor(tt-tleft)-2),convert_sec_to_xx_xx_xx(math_floor(tt)),0,1,1)
 		end
 	end

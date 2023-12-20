@@ -57,7 +57,7 @@ MB.listfile_music={
 				auto filedataid = line.substr(0,prefix_pos);
 				vec.emplace_back(prefixval,
 					::fast_io::to<::std::uint_least64_t>(filedataid));
-				print(obf2,"[",filedataid,"]={",prefixval,",\"",line.substr(pos+1),"\",",ts,"},\n");
+				print(obf2,"[",filedataid,"]={",prefixval+1u,",\"",line.substr(pos+1),"\",",ts,"},\n");
 			}
 			catch(std::exception const& e)
 			{
@@ -84,7 +84,7 @@ local atp=MB.AddTempPlaylist
 			if(s!=SIZE_MAX)
 				print(obf,"})\n");
 			s=ele.first;
-			print(obf,"atp(MB,",ele.first,",{");
+			print(obf,"atp(MB,",ele.first+1u,",{");
 		}
 		print(obf,ele.second,",");
 	}

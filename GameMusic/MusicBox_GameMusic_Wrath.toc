@@ -6,3 +6,10 @@
 
 listfile_music.lua
 GameMusic.lua
+UiMapIDToAreaInfos.lua
+AreaIDMusicInfo.lua
+ZoneIntroMusicTable.lua
+ZoneMusic.lua
+SoundEntries.lua
+main.lua
+

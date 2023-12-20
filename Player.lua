@@ -1,6 +1,8 @@
 local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 local PlayMusic = PlayMusic
 local StopMusic = StopMusic
+local type = type
+local LoadAddOn = LoadAddOn
 
 function MusicBox:PlayMusic(music)
 	if self.db.profile.playing == true and music then
@@ -8,19 +10,33 @@ function MusicBox:PlayMusic(music)
 			self:CancelTimer(self.timer)
 			self.timer = nil
 		end
-		local length = music[2]
+		local length = 0.1
+		local toplay
+		if type(music) == "table" then
+			length = music[2]
+			toplay = music[1]
+		elseif type(music) == "number" then
+			local listfile_music = self.listfile_music
+			if listfile_music == nil then
+				LoadAddOn("MusicBox_GameMusic")
+				listfile_music = self.listfile_music
+			end
+			local listfile_music_prefix = self.listfile_music_prefix
+			local musicinfo = listfile_music[music]
+			length = musicinfo[3]
+			if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+				toplay = music
+			else
+				toplay = format("%s/%s",self.listfile_music_prefix[musicinfo[1]],musicinfo[2])
+			end
+		end
 		if 2 < length then
 			self.now_playing = music
-			local toplay = music[4]
-			if toplay == nil then
-				toplay = music[1]
-			else
-				toplay = format("%s/%s",toplay,music[3])
-			end
 			PlayMusic(toplay)
 			self.timer = self:ScheduleTimer("TimerFeedBack",length-2)
 		else
-			self.timer = self:ScheduleTimer("TimerFeedBack",0)
+			StopMusic()
+			self.timer = self:ScheduleTimer("TimerFeedBack",0.1)
 		end
 	end
 end
