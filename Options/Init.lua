@@ -30,14 +30,36 @@ local MusicBox = AceAddon:GetAddon("MusicBox")
 function MusicBox_Options.GenerateRWPlayListValues()
 	local tb = {}
 	for k,v in pairs(MusicBox.db.profile.playlists) do
-		tb[k] = k
+		local kk = k
+		if type(k) == "number" then
+			local prefix = MusicBox.listfile_music_prefix
+			if prefix then
+				if prefix then
+					local kkk = prefix[kk]
+					if kkk then
+						kk = kkk
+					end
+				end
+			end
+		end
+		tb[k] = kk
 	end
 	return tb
 end
 function MusicBox_Options.GenerateROPlayListValues()
 	local tb = MusicBox_Options.GenerateRWPlayListValues()
 	for k,v in pairs(MusicBox.temp_playlist) do
-		tb[k] = k
+		local kk = k
+		if type(k) == "number" then
+			local prefix = MusicBox.listfile_music_prefix
+			if prefix then
+				local kkk = prefix[kk]
+				if kkk then
+					kk = kkk
+				end
+			end
+		end
+		tb[k] = kk
 	end
 	return tb
 end
