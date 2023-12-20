@@ -4,6 +4,11 @@ struct UiMapAssignmentEntrySimple
 ::std::uint_least64_t areaid;
 };
 
+struct AreaTableEntry_Classic
+{
+::std::uint_least64_t zonemusic,uwzonemusic,introsound,uwintrosound;
+};
+
 namespace dataparser
 {
 
@@ -80,34 +85,77 @@ print(tablelua,"}\n");
 	}
 	::std::unordered_set<::std::uint_least64_t> zonesoundkits;
 	{
+	::csv::CSVReader tablecsv_classic("AreaTable_Classic.csv");
+	::std::unordered_map<::std::uint_least64_t,AreaTableEntry_Classic> areatbclassic;
+	for(auto const & row : tablecsv_classic)
+	{
+		auto id = row["ID"].get<::std::uint_least64_t>();
+		auto zonemusic = row["ZoneMusic"].get<::std::uint_least64_t>();
+		auto uwzonemusic = row["UwZoneMusic"].get<::std::uint_least64_t>();
+		auto introsound = row["IntroSound"].get<::std::uint_least64_t>();
+		auto uwintrosound = row["UwIntroSound"].get<::std::uint_least64_t>();
+		areatbclassic[id]=AreaTableEntry_Classic{zonemusic,uwzonemusic,introsound,uwintrosound};
+	}
+
 	::fast_io::obuf_file tablelua(at(retaildir),u8"AreaIDMusicInfo.lua");
 	::csv::CSVReader tablecsv("AreaTable.csv");
+	
 	print(tablelua,R"(local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 MusicBox.AreaIDMusicInfo=
 {)");
 	for(auto const & row : tablecsv)
 	{
-		{
+		auto id = row["ID"].get<::std::uint_least64_t>();
 		auto ZoneMusicid = row["ZoneMusic"].get<::std::uint_least64_t>();
+		{
+		
 		if(ZoneMusicid)
 		{
 			zonesoundkits.insert(ZoneMusicid);
 		}
 		}
+		auto UwZoneMusicid = row["UwZoneMusic"].get<::std::uint_least64_t>();
 		{
-		auto ZoneMusicid = row["UwZoneMusic"].get<::std::uint_least64_t>();
-		if(ZoneMusicid)
+		if(UwZoneMusicid)
 		{
-			zonesoundkits.insert(ZoneMusicid);
+			zonesoundkits.insert(UwZoneMusicid);
 		}
 		}
 		print(tablelua,"[",row["ID"].get_sv(),"]={\"",
 		row["ZoneName"].get_sv(),"\",\"",
-		row["AreaName_lang"].get_sv(),"\",",
-		row["ZoneMusic"].get_sv(),",",
-		row["UwZoneMusic"].get_sv(),",",
-		row["IntroSound"].get_sv(),",",
-		row["UwIntroSound"].get_sv(),"},\n");
+		row["AreaName_lang"].get_sv(),"\",");
+
+		auto introsound = row["IntroSound"].get<::std::uint_least64_t>();
+		auto uwintrosound = row["UwIntroSound"].get<::std::uint_least64_t>();
+		auto fdcl{areatbclassic.find(id)};
+		if(fdcl!=areatbclassic.cend())
+		{
+			auto const& classicentry{fdcl->second};
+			auto test_with_p([&](::std::uint_least64_t val,::std::uint_least64_t classicval)
+			{
+				if(val!=classicval)
+				{
+					print(tablelua,"{");
+				}
+				print(tablelua,val);
+				if(val!=classicval)
+				{
+					print(tablelua,classicval,"}");
+				}
+				print(tablelua,",");
+			});
+			test_with_p(ZoneMusicid,classicentry.zonemusic);
+			test_with_p(UwZoneMusicid,classicentry.uwzonemusic);
+			test_with_p(introsound,classicentry.introsound);
+			test_with_p(uwintrosound,classicentry.uwintrosound);
+		}
+		else
+		{
+			print(tablelua,ZoneMusicid,",",
+			UwZoneMusicid,",",
+			introsound,",",
+			uwintrosound,"},\n");
+		}
 	}
 print(tablelua,"}\n");
 	}
