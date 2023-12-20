@@ -154,8 +154,10 @@ MusicBox.AreaIDMusicInfo=
 			print(tablelua,ZoneMusicid,",",
 			UwZoneMusicid,",",
 			introsound,",",
-			uwintrosound,"},\n");
+			uwintrosound);
 		}
+		print(tablelua,"},\n");
+
 	}
 print(tablelua,"}\n");
 	}
