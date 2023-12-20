@@ -68,16 +68,38 @@ function MusicBox.mainlinefunction()
 	end
 	local mainlineplaylist = {}
 	local ZoneMusic = MusicBox.ZoneMusic
-	local zm = ZoneMusic[zonemusic]
-	if zm then
-		add_soundentries_filedataids(zm[1], mainlineplaylist, iswinterveil)
+
+	if type(zonemusic) == "number" then
+		local zm = ZoneMusic[zonemusic]
+		if zm then
+			add_soundentries_filedataids(zm[1], mainlineplaylist, iswinterveil)
+		end
+	elseif type(zonemusic) == "table" then
+		for _,v in pairs(zonemusic) do
+			local zm = ZoneMusic[v]
+			if zm then
+				add_soundentries_filedataids(zm[1], mainlineplaylist, iswinterveil)
+			end
+		end
 	end
 	if zoneintro ~= 0 then
-		local introinfo = MusicBox.ZoneIntroMusicTable[zoneintro]
-		if introinfo then
-			local introzm = introinfo[2]
-			if introzm then
-				add_soundentries_filedataids(introzm, mainlineplaylist, iswinterveil)
+		if type(zoneintro) == "number" then
+			local introinfo = MusicBox.ZoneIntroMusicTable[zoneintro]
+			if introinfo then
+				local introzm = introinfo[2]
+				if introzm then
+					add_soundentries_filedataids(introzm, mainlineplaylist, iswinterveil)
+				end
+			end
+		elseif type(zonemusic) == "table" then
+			for _,v in pairs(zonemusic) do
+				local introinfo = MusicBox.ZoneIntroMusicTable[v]
+				if introinfo then
+					local introzm = introinfo[2]
+					if introzm then
+						add_soundentries_filedataids(introzm, mainlineplaylist, iswinterveil)
+					end
+				end
 			end
 		end
 	end
