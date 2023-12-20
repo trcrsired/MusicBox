@@ -11,5 +11,5 @@ AreaIDMusicInfo.lua
 ZoneIntroMusicTable.lua
 ZoneMusic.lua
 SoundEntries.lua
+zonefixup.lua
 main.lua
-

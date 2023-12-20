@@ -1,11 +1,4 @@
 local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
-MusicBox.Zonemanualtweaks =
-{
-[1537] = -- ironforge
-{
-7318,7319,22750,23803,23804,23806
-}
-}
 
 local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
 local C_DateAndTime_GetCurrentCalendarTime = C_DateAndTime.GetCurrentCalendarTime
@@ -103,7 +96,7 @@ function MusicBox.mainlinefunction()
 			end
 		end
 	end
-	local manualtweaks = MusicBox.Zonemanualtweaks[areaid]
+	local manualtweaks = MusicBox.zonefixup[areaid]
 	if manualtweaks then
 		--Zones needs sometweaks
 		for i=1,#manualtweaks do
