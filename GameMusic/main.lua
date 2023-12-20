@@ -1,4 +1,12 @@
 local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
+MusicBox.Zonemanualtweaks =
+{
+[1537] = -- ironforge
+{
+7318,7319,22750,23803,23804,23806
+}
+}
+
 local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
 local C_DateAndTime_GetCurrentCalendarTime = C_DateAndTime.GetCurrentCalendarTime
 
@@ -61,7 +69,7 @@ function MusicBox.mainlinefunction()
 	local mainlineplaylist = {}
 	local ZoneMusic = MusicBox.ZoneMusic
 	local zm = ZoneMusic[zonemusic]
-	if zm  then
+	if zm then
 		add_soundentries_filedataids(zm[1], mainlineplaylist, iswinterveil)
 	end
 	if zoneintro ~= 0 then
@@ -71,6 +79,13 @@ function MusicBox.mainlinefunction()
 			if introzm then
 				add_soundentries_filedataids(introzm, mainlineplaylist, iswinterveil)
 			end
+		end
+	end
+	local manualtweaks = MusicBox.Zonemanualtweaks[areaid]
+	if manualtweaks then
+		--Zones needs sometweaks
+		for i=1,#manualtweaks do
+			add_soundentries_filedataids(manualtweaks[i], mainlineplaylist, iswinterveil)
 		end
 	end
 	if iswinterveil then
