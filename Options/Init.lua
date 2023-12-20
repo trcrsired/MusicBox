@@ -76,12 +76,23 @@ end
 
 function MusicBox_Options.generate_playlist(tb)
 	local t = {}
-	local i
 	for i=1,#tb do
 		local temp = tb[i]
-		mscinfcc[1] = temp[3] or temp[1]
-		mscinfcc[3] = convert_sec_to_xx_xx_xx(math_floor(temp[2]))
-		t[i] = table_concat(mscinfcc)
+		if type(temp) == "number" then
+			local lfmusic = MusicBox.listfile_music
+			if lfmusic then
+				local lfmt = lfmusic[temp]
+				if lfmt then
+					mscinfcc[1] = lfmt[2]
+					mscinfcc[3] = convert_sec_to_xx_xx_xx(math_floor(lfmt[3]))
+					t[i] = table_concat(mscinfcc)
+				end
+			end
+		else
+			mscinfcc[1] = temp[3] or temp[1]
+			mscinfcc[3] = convert_sec_to_xx_xx_xx(math_floor(temp[2]))
+			t[i] = table_concat(mscinfcc)
+		end
 	end
 	return t
 end
