@@ -16,7 +16,7 @@ function MusicBox_Options:OnInitialize()
 	AceConfig:RegisterOptionsTable("MusicBox", options, nil)
 	optionsFrames.general = AceConfigDialog:AddToBlizOptions("MusicBox", "MusicBox")
 	self.optionsFrames = optionsFrames
-	MusicBox.db.RegisterCallback(MusicBox, "OnProfileChanged", "PLAYER_UPDATE_RESTING")
-	MusicBox.db.RegisterCallback(MusicBox, "OnProfileCopied", "PLAYER_UPDATE_RESTING")
-	MusicBox.db.RegisterCallback(MusicBox, "OnProfileReset", "PLAYER_UPDATE_RESTING")
+	MusicBox.db.RegisterCallback(MusicBox, "OnProfileChanged", "LOADING_SCREEN_DISABLED")
+	MusicBox.db.RegisterCallback(MusicBox, "OnProfileCopied", "LOADING_SCREEN_DISABLED")
+	MusicBox.db.RegisterCallback(MusicBox, "OnProfileReset", "LOADING_SCREEN_DISABLED")
 end
