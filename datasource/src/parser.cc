@@ -74,7 +74,7 @@ MusicBox.UiMapIDToAreaInfos=
 				areaids.insert(areaid);
 			}
 		}
-		print(tablelua ,"}\n");
+		print(tablelua ,"},\n");
 	}
 print(tablelua,"}\n");
 	}
@@ -131,10 +131,10 @@ print(tablelua,"}\n");
 	}
 
 	{
-	::fast_io::obuf_file tablelua(at(retaildir),u8"ZoneSoundKitIDToFiledataIDs.lua");
+	::fast_io::obuf_file tablelua(at(retaildir),u8"ZoneSoundKitIDToSoundEntryID.lua");
 	::csv::CSVReader tablecsv("SoundKitEntry.csv");
 	print(tablelua,R"(local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
-MusicBox.ZoneSoundKitIDToFiledataIDs=
+MusicBox.ZoneSoundKitIDToSoundEntryID=
 {)");
 	::std::map<::std::uint_least64_t,::fast_io::vector<::std::uint_least64_t>> mp;
 	for(auto const & row : tablecsv)
