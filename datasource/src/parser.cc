@@ -133,12 +133,13 @@ MusicBox.AreaIDMusicInfo=
 			auto const& classicentry{fdcl->second};
 			auto test_with_p([&](::std::uint_least64_t val,::std::uint_least64_t classicval)
 			{
-				if(val!=classicval)
+				bool const needtable{val!=classicval&&val!=0&&classicval!=0};
+				if(needtable)
 				{
 					print(tablelua,"{");
 				}
 				print(tablelua,val);
-				if(val!=classicval)
+				if(needtable)
 				{
 					print(tablelua,classicval,"}");
 				}
