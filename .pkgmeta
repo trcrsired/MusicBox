@@ -46,12 +46,14 @@ externals:
   Icon/Libs/LibDBIcon-1.0:
     url: https://repos.wowace.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
     tag: latest
+  GameMusic/Libs/LibBabble-SubZone-1.0:
+    url: https://repos.curseforge.com/wow/libbabble-subzone-3-0/trunk/LibBabble-SubZone-3.0
+    tag: latest
 
 move-folders:
   MusicBox/Icon: MusicBox_Icon
   MusicBox/Options: MusicBox_Options
   MusicBox/GameMusic: MusicBox_GameMusic
-  MusicBox/MainlineMusic: MusicBox_MainlineMusic
 
 ignore:
   - datasource
