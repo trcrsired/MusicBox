@@ -21,6 +21,9 @@ function MusicBox:PlayMainlineMusic()
 end
 
 function MusicBox:UpdateWorld(pt)
+	if InCinematic() then
+		self:Stop()
+	end
 	local profile = self.db.profile
 	local playlist = profile[pt]
 	if playlist then
