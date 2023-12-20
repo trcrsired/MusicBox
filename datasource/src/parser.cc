@@ -139,7 +139,7 @@ MusicBox.ZoneMusic=
 	::std::map<::std::uint_least64_t,::fast_io::vector<::std::uint_least64_t>> mp;
 	for(auto const & row : tablecsv)
 	{
-		print(tablelua,"[",row["ID"].get_sv(),"]={\"",
+		print(tablelua,"[",row["ID"].get_sv(),"]={",
 		row["Sounds_0"].get_sv(),",",
 		row["Sounds_1"].get_sv(),"},\n");
 	}
