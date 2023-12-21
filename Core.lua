@@ -42,12 +42,12 @@ function MusicBox:PLAYER_UNGHOST()
 	self:PlayMainlineMusic()
 end
 
-function MusicBox:ZONE_CHANGED_NEW_AREA(event)
-	self:UpdateWorld(self:GetProfileType())
+function MusicBox:ZONE_CHANGED_NEW_AREA()
+	C_Timer.After(0.1,function() self:UpdateWorld(self:GetProfileType()) end)
 end
 
-function MusicBox:ZONE_CHANGED(event)
-	self:UpdateWorld(self:GetProfileType(),true)
+function MusicBox:ZONE_CHANGED()
+	C_Timer.After(0.1,function() self:UpdateWorld(self:GetProfileType(),true) end)
 end
 
 function MusicBox:OnEnable()
@@ -59,7 +59,8 @@ function MusicBox:OnEnable()
 	self:RegisterEvent("LOADING_SCREEN_DISABLED")
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 	self:RegisterEvent("ZONE_CHANGED")
-	self:RegisterEvent("PLAYER_UNGHOST","ZONE_CHANGED_NEW_AREA")
+	self:RegisterEvent("ZONE_CHANGED_INDOORS", "ZONE_CHANGED")
+	self:RegisterEvent("PLAYER_UNGHOST","ZONE_CHANGED")
 --	C_Timer.After(2.0,function() MusicBox:PLAYER_UPDATE_RESTING() end)
 end
 

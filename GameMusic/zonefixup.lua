@@ -18,5 +18,10 @@ MusicBox.zonefixup =
 7794,	-- Moment-Darnassus Walking03
 {1417240,1417241,1417242,1417243,1417244,1417245,1417246,1417247},	-- Anduin theme. After legion it is rebuilt with Lion's Rest
 {1500388,1514201,1514202,1514203,1514204,1514205,1514206}	-- Canticle of Sacrifice. Legion
-}
+},
+[8244] = -- Cathedral Square
+{
+6076,	-- Sacred02
+{772741,772742,772743,772744,772745,772746,772747}	-- Jiana Homeland
+},
 }
