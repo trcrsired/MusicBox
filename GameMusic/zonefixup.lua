@@ -24,4 +24,8 @@ MusicBox.zonefixup =
 6076,	-- Sacred02
 {772741,772742,772743,772744,772745,772746,772747}	-- Jiana Homeland
 },
+[10523] = -- Wizard's Sanctum
+{
+6669
+}
 }
