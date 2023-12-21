@@ -1,4 +1,4 @@
-if GetLocale() != "frFR" then return end
+if GetLocale() ~= "frFR" then return end
 local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 MusicBox.AreaTableSubZoneLocale =
 {

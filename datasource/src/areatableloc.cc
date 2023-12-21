@@ -38,7 +38,7 @@ int main(int argc,char **argv)
 			print(::fast_io::u8c_stdout(),u8"AreaTableSubZoneLocale/",localename,u8".lua\n");
 			if(!isenus)
 			{
-				print(obf,"if GetLocale() != \"",::fast_io::mnp::code_cvt(localename),"\" then return end\n");
+				print(obf,"if GetLocale() ~= \"",::fast_io::mnp::code_cvt(localename),"\" then return end\n");
 			}
 			print(obf,R"abc(local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 )abc");
