@@ -129,6 +129,9 @@ function MusicBox.mainlinefunction(subzonechanged)
 		local localesub = AreaTableSubZoneLocale[areaid]
 		if localesub then
 			subzoneareaid = localesub[subzonetext]
+			if subzoneareaid == 8411 then -- Lion's Rest
+				subzoneareaid = 5157 -- The Park
+			end
 		end
 	end
 	local mainlineplaylist = {}
