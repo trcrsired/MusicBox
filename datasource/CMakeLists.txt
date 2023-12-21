@@ -14,4 +14,12 @@ add_executable(parser
 	$<TARGET_OBJECTS:parsermain>)
 target_link_libraries(parser ntdll)
 
-install(TARGETS parser)
+
+add_library(areatablelocmain OBJECT src/areatableloc.cc)
+target_precompile_headers(areatablelocmain REUSE_FROM parsermain)
+
+add_executable(areatableloc
+	$<TARGET_OBJECTS:areatablelocmain>)
+target_link_libraries(areatableloc ntdll)
+
+install(TARGETS parser areatableloc)

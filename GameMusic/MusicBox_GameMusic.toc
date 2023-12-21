@@ -12,4 +12,17 @@ ZoneIntroMusicTable.lua
 ZoneMusic.lua
 SoundEntries.lua
 zonefixup.lua
+AreaTableSubZoneLocale/deDE.lua
+AreaTableSubZoneLocale/enGB.lua
+AreaTableSubZoneLocale/esES.lua
+AreaTableSubZoneLocale/esMX.lua
+AreaTableSubZoneLocale/frFR.lua
+AreaTableSubZoneLocale/itIT.lua
+AreaTableSubZoneLocale/koKR.lua
+AreaTableSubZoneLocale/ptBR.lua
+AreaTableSubZoneLocale/ptPT.lua
+AreaTableSubZoneLocale/ruRU.lua
+AreaTableSubZoneLocale/zhCN.lua
+AreaTableSubZoneLocale/zhTW.lua
+AreaTableSubZoneLocale/enUS.lua
 main.lua
