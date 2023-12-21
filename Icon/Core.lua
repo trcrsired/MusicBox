@@ -95,7 +95,8 @@ function MusicBox_Icon:TimerFeedback()
 		local duration = 0
 		local playlistname
 		local expansionname
-		if type(now_playing) == "number" then
+		local nowplayingisanumber = type(now_playing) == "number"
+		if nowplayingisanumber then
 			local listfile_music = MusicBox.listfile_music
 			local listfile_music_prefix = MusicBox.listfile_music_prefix
 			local musicinfo = listfile_music[now_playing]
@@ -123,7 +124,7 @@ function MusicBox_Icon:TimerFeedback()
 			end
 		end
 		if playlistname then
-			GameTooltip:AddDoubleLine(musicname,playlistname,nil,nil,nil,0.5,0.5,0.8,true)
+			GameTooltip:AddDoubleLine(musicname,nowplayingisanumber and now_playing or playlistname,nil,nil,nil,0.5,0.5,0.8,true)
 		else
 			GameTooltip:AddLine(musicname,0.5,0.5,0.8,true)
 		end
