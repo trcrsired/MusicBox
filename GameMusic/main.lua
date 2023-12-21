@@ -5,6 +5,12 @@ local C_DateAndTime_GetCurrentCalendarTime = C_DateAndTime.GetCurrentCalendarTim
 local GetSubZoneText = GetSubZoneText
 
 local function add_soundentries_filedataids(soundentryid, mainlineplaylist, iswinterveil)
+	if type(soundentryid) == "table" then
+		for i=1,#soundentryid do
+			mainlineplaylist[#mainlineplaylist+1] = soundentryid[i]
+		end
+		return
+	end
 	local fileids = MusicBox.SoundEntries[soundentryid]
 	if fileids == nil then
 		return
@@ -18,42 +24,9 @@ local function add_soundentries_filedataids(soundentryid, mainlineplaylist, iswi
 	end
 end
 
-function MusicBox.mainlinefunction(subzonechanged)
-	local mapID = C_Map_GetBestMapForUnit("player")
-	if mapID == nil then
+local function add_area_songs(areaid,mainlineplaylist,isnight,iswinterveil)
+	if areaid == nil then
 		return
-	end
-	local isnight
-	local iswinterveil
-	local currentCalenderTime = C_DateAndTime_GetCurrentCalendarTime()
-	if currentCalenderTime then
-		local hour = currentCalenderTime.hour
-		isnight = hour < 6 or 18 <= hour
-		local month = currentCalenderTime.month
-		if month == 12 then
-			local monthday = currentCalenderTime.monthDay
-			iswinterveil = monthday and 15 <= monthday and monthday <= 31
-		end
-	end
-	local areainfo = MusicBox.UiMapIDToAreaInfos[mapID]
-	if areainfo == nil then
-		return
-	end
-	local a1 = areainfo[1]
-	if a1 == nil then
-		return
-	end
-	local areaid = a1[1]
-	local subzonetext = GetSubZoneText()
-	if subzonetext then
-		local AreaTableSubZoneLocale = MusicBox.AreaTableSubZoneLocale
-		local localesub = AreaTableSubZoneLocale[areaid]
-		if localesub then
-			local subzoneareaid = localesub[subzonetext]
-			if subzoneareaid then
-				areaid = subzoneareaid
-			end
-		end
 	end
 	local areamusicinfo = MusicBox.AreaIDMusicInfo[areaid]
 	if areamusicinfo == nil then
@@ -71,7 +44,6 @@ function MusicBox.mainlinefunction(subzonechanged)
 	if zoneintro == 0 then
 		zoneintro = areamusicinfo[5]
 	end
-	local mainlineplaylist = {}
 	local ZoneMusic = MusicBox.ZoneMusic
 
 	if type(zonemusic) == "number" then
@@ -122,6 +94,46 @@ function MusicBox.mainlinefunction(subzonechanged)
 			end
 		end
 	end
+end
+
+function MusicBox.mainlinefunction(subzonechanged)
+	local mapID = C_Map_GetBestMapForUnit("player")
+	if mapID == nil then
+		return
+	end
+	local isnight
+	local iswinterveil
+	local currentCalenderTime = C_DateAndTime_GetCurrentCalendarTime()
+	if currentCalenderTime then
+		local hour = currentCalenderTime.hour
+		isnight = hour < 6 or 18 <= hour
+		local month = currentCalenderTime.month
+		if month == 12 then
+			local monthday = currentCalenderTime.monthDay
+			iswinterveil = monthday and 15 <= monthday and monthday <= 31
+		end
+	end
+	local areainfo = MusicBox.UiMapIDToAreaInfos[mapID]
+	if areainfo == nil then
+		return
+	end
+	local a1 = areainfo[1]
+	if a1 == nil then
+		return
+	end
+	local areaid = a1[1]
+	local subzonetext = GetSubZoneText()
+	local subzoneareaid
+	if subzonetext then
+		local AreaTableSubZoneLocale = MusicBox.AreaTableSubZoneLocale
+		local localesub = AreaTableSubZoneLocale[areaid]
+		if localesub then
+			subzoneareaid = localesub[subzonetext]
+		end
+	end
+	local mainlineplaylist = {}
+	add_area_songs(areaid,mainlineplaylist,isnight,iswinterveil)
+	add_area_songs(subzoneareaid,mainlineplaylist,isnight,iswinterveil)
 	if #mainlineplaylist ~= 0 then
 		if subzonechanged then
 			MusicBox:SetAwaitPlayList(mainlineplaylist)
