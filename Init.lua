@@ -17,7 +17,7 @@ function MusicBox:OnInitialize()
 			game_music = ismainline,
 			game_music_use_path = not ismainline
 		}
-	},true)
+	})
 	self.temp_playlist = {}
 	self:RegisterChatCommand("MusicBox", "ChatCommand")
 	self:RegisterChatCommand("MB", "ChatCommand")
