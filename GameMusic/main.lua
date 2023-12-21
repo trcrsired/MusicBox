@@ -2,6 +2,7 @@ local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 
 local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
 local C_DateAndTime_GetCurrentCalendarTime = C_DateAndTime.GetCurrentCalendarTime
+local GetSubZoneText = GetSubZoneText
 
 local function add_soundentries_filedataids(soundentryid, mainlineplaylist, iswinterveil)
 	local fileids = MusicBox.SoundEntries[soundentryid]
@@ -17,7 +18,7 @@ local function add_soundentries_filedataids(soundentryid, mainlineplaylist, iswi
 	end
 end
 
-function MusicBox.mainlinefunction()
+function MusicBox.mainlinefunction(subzonechanged)
 	local mapID = C_Map_GetBestMapForUnit("player")
 	if mapID == nil then
 		return
@@ -31,7 +32,7 @@ function MusicBox.mainlinefunction()
 		local month = currentCalenderTime.month
 		if month == 12 then
 			local monthday = currentCalenderTime.monthDay
-			iswinterveil = monthday and 15 <= monthday and monthday <= 28
+			iswinterveil = monthday and 15 <= monthday and monthday <= 31
 		end
 	end
 	local areainfo = MusicBox.UiMapIDToAreaInfos[mapID]
@@ -43,6 +44,17 @@ function MusicBox.mainlinefunction()
 		return
 	end
 	local areaid = a1[1]
+	local subzonetext = GetSubZoneText()
+	if subzonetext then
+		local AreaTableSubZoneLocale = MusicBox.AreaTableSubZoneLocale
+		local localesub = AreaTableSubZoneLocale[areaid]
+		if localesub then
+			local subzoneareaid = localesub[subzonetext]
+			if subzoneareaid then
+				areaid = subzoneareaid
+			end
+		end
+	end
 	local areamusicinfo = MusicBox.AreaIDMusicInfo[areaid]
 	if areamusicinfo == nil then
 		return
@@ -111,7 +123,11 @@ function MusicBox.mainlinefunction()
 		end
 	end
 	if #mainlineplaylist ~= 0 then
-		MusicBox:PlayPlaylist(mainlineplaylist)
+		if subzonechanged then
+			MusicBox:SetAwaitPlayList(mainlineplaylist)
+		else
+			MusicBox:PlayPlaylist(mainlineplaylist)
+		end
 		return mainlineplaylist
 	end
 end

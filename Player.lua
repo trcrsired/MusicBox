@@ -71,6 +71,7 @@ local function shuffle_order_playlist(pl)
 end
 
 local current_playlist
+local await_playlist
 
 function MusicBox:NextMusic()
 	if self.db.profile.playing and current_playlist then
@@ -83,6 +84,11 @@ function MusicBox:NextMusic()
 	end
 end
 function MusicBox:TimerFeedBack()
+	if await_playlist then
+		current_playlist = await_playlist
+		await_playlist = nil
+		shuffle_order_playlist(current_playlist)
+	end
 	if current_playlist == nil or #current_playlist == 0 then
 		self:StopMusic()
 		return
@@ -108,6 +114,10 @@ local function feedback()
 	end
 end
 
+function MusicBox:GetCurrentPlayList()
+	return current_playlist
+end
+
 function MusicBox:PlayPlaylist(pl)
 	if current_playlist ~= pl then
 		current_playlist = pl
@@ -125,6 +135,19 @@ function MusicBox:PlayPlaylist(pl)
 		end
 	end
 end
+
+function MusicBox:SetAwaitPlayList(pl)
+	if current_playlist == pl then
+		return
+	end
+	if current_playlist == nil then
+		self:PlayPlaylist(pl)
+		await_playlist = nil
+	else
+		await_playlist = pl
+	end
+end
+
 function MusicBox:Start()
 	local music_enable = GetCVar("Sound_EnableMusic")
 	if music_enable==true or music_enable==1 or music_enable == "1" then

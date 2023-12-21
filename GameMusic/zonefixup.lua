@@ -11,7 +11,5 @@ MusicBox.zonefixup =
 [11] = -- wetlands
 {
 2533
-},
-[40] = -- westfall
-{22645,22646,22785}
+}
 }

@@ -4,7 +4,7 @@ local IsResting = IsResting
 local UnitIsGhost = UnitIsGhost
 --------------------------------------------------------------------------------------
 
-function MusicBox:PlayMainlineMusic()
+function MusicBox:PlayMainlineMusic(subzone)
 	local mainline_music = self.db.profile.mainline_music
 	if mainline_music then
 		local mainlinefunction = MusicBox.mainlinefunction
@@ -13,14 +13,14 @@ function MusicBox:PlayMainlineMusic()
 			mainlinefunction = MusicBox.mainlinefunction
 		end
 		if mainlinefunction then
-			if mainlinefunction() then
+			if mainlinefunction(subzone) then
 				return true
 			end
 		end
 	end
 end
 
-function MusicBox:UpdateWorld(pt)
+function MusicBox:UpdateWorld(pt,subzone)
 	if InCinematic() then
 		self:Stop()
 	end
@@ -30,7 +30,7 @@ function MusicBox:UpdateWorld(pt)
 		self:PlayPlaylist(self:GetPlaylist(playlist))
 	else
 		if not UnitIsGhost("player") then
-			if self:PlayMainlineMusic() then
+			if self:PlayMainlineMusic(subzone) then
 				return
 			end
 		end
@@ -42,8 +42,12 @@ function MusicBox:PLAYER_UNGHOST()
 	self:PlayMainlineMusic()
 end
 
-function MusicBox:ZONE_CHANGED_NEW_AREA()
+function MusicBox:ZONE_CHANGED_NEW_AREA(event)
 	self:UpdateWorld(self:GetProfileType())
+end
+
+function MusicBox:ZONE_CHANGED(event)
+	self:UpdateWorld(self:GetProfileType(),true)
 end
 
 function MusicBox:OnEnable()
@@ -54,6 +58,7 @@ function MusicBox:OnEnable()
 	self:UpdateWorld(self:GetProfileType())
 	self:RegisterEvent("LOADING_SCREEN_DISABLED")
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+	self:RegisterEvent("ZONE_CHANGED")
 	self:RegisterEvent("PLAYER_UNGHOST","ZONE_CHANGED_NEW_AREA")
 --	C_Timer.After(2.0,function() MusicBox:PLAYER_UPDATE_RESTING() end)
 end
