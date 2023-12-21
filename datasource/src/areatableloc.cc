@@ -30,7 +30,17 @@ int main(int argc,char **argv)
 				{
 					continue;
 				}
-				mp[parentareaid][::std::string(row["AreaName_lang"].get_sv())]=row["ID"].get<::std::uint_least64_t>();
+				::std::string_view areanamelang{row["AreaName_lang"].get_sv()};
+				::std::string areanamelangstr;
+				for(auto e : areanamelang)
+				{
+					if(e=='\"')
+					{
+						areanamelangstr.push_back('\\');
+					}
+					areanamelangstr.push_back(e);
+				}
+				mp[parentareaid][areanamelangstr]=row["ID"].get<::std::uint_least64_t>();
 			}
 			::fast_io::obuf_file obf(at(luadir),::fast_io::u8concat(u8stem(ent),u8".lua"));
 			::std::u8string_view localename{u8stem(ent)};
@@ -61,6 +71,7 @@ int main(int argc,char **argv)
 					{
 						print(obf,",");
 					}
+
 					print(obf,"[\"",e1.first,"\"] = ",e1.second);
 				}
 				print(obf,"},\n");
