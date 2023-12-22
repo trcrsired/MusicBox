@@ -41,4 +41,8 @@ MusicBox.zonefixup =
 {
 3820	-- Ghost Music
 },
+[2119] = -- Gallows' End Tavern
+{
+7083	-- Undead Dance
+},
 }
