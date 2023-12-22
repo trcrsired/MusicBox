@@ -32,5 +32,13 @@ MusicBox.zonefixup =
 [10523] = -- Wizard's Sanctum
 {
 6669
-}
+},
+[2117] = -- Shadow Grave
+{
+3820	-- Ghost Music
+},
+[6454] = -- DeathKnell
+{
+3820	-- Ghost Music
+},
 }
