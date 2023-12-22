@@ -26,7 +26,7 @@ local mainline_music_option_tb =
 	type = "toggle",
 	set = function(_,val)
 		MusicBox.db.profile.mainline_music = val
-		MusicBox:PLAYER_UPDATE_RESTING()
+		MusicBox:ZONE_CHANGED_NEW_AREA()
 	end,
 	get = function()
 		return MusicBox.db.profile.mainline_music
