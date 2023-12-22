@@ -52,3 +52,12 @@ MusicBox.zonefixup =
 {441821,441823,441824,441825} -- Undercity Cataclysm
 },
 }
+
+MusicBox.mapidfixup =
+{
+[311] =
+{
+23610,	-- MUS_ShadowfangKeep
+{53226,53225,53228}	-- Battle Moment 1,2,4 (3 is in MUS_ShadowfangKeep)
+}
+}

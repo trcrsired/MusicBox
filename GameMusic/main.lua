@@ -114,29 +114,36 @@ function MusicBox.mainlinefunction(subzonechanged)
 		end
 	end
 	local areainfo = MusicBox.UiMapIDToAreaInfos[mapID]
-	if areainfo == nil then
-		return
-	end
-	local a1 = areainfo[1]
-	if a1 == nil then
-		return
-	end
-	local areaid = a1[1]
-	local subzonetext = GetSubZoneText()
-	local subzoneareaid
-	if subzonetext then
-		local AreaTableSubZoneLocale = MusicBox.AreaTableSubZoneLocale
-		local localesub = AreaTableSubZoneLocale[areaid]
-		if localesub then
-			subzoneareaid = localesub[subzonetext]
-			if subzoneareaid == 8411 then -- Lion's Rest
-				subzoneareaid = 5157 -- The Park
+	local mainlineplaylist = {}
+	if areainfo then
+		local a1 = areainfo[1]
+		if a1 == nil then
+			return
+		end
+		local areaid = a1[1]
+		local subzonetext = GetSubZoneText()
+		local subzoneareaid
+		if subzonetext then
+			local AreaTableSubZoneLocale = MusicBox.AreaTableSubZoneLocale
+			local localesub = AreaTableSubZoneLocale[areaid]
+			if localesub then
+				subzoneareaid = localesub[subzonetext]
+				if subzoneareaid == 8411 then -- Lion's Rest
+					subzoneareaid = 5157 -- The Park
+				end
 			end
 		end
+		add_area_songs(areaid,mainlineplaylist,isnight,iswinterveil)
+		add_area_songs(subzoneareaid,mainlineplaylist,isnight,iswinterveil)
+	else
+		local mpidfixup = MusicBox.mapidfixup[mapID]
+		if mpidfixup == nil then
+			return
+		end
+		for i=1,#mpidfixup do
+			add_soundentries_filedataids(mpidfixup[i], mainlineplaylist, iswinterveil)
+		end
 	end
-	local mainlineplaylist = {}
-	add_area_songs(areaid,mainlineplaylist,isnight,iswinterveil)
-	add_area_songs(subzoneareaid,mainlineplaylist,isnight,iswinterveil)
 	if #mainlineplaylist ~= 0 then
 		if subzonechanged then
 			MusicBox:SetAwaitPlayList(mainlineplaylist)
