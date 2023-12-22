@@ -45,4 +45,10 @@ MusicBox.zonefixup =
 {
 7083	-- Undead Dance
 },
+[1497] = -- Undercity
+{
+5074,	-- Undercity Classic
+6080,	-- Undercity Classic Intro
+{441821,441823,441824,441825} -- Undercity Cataclysm
+},
 }
