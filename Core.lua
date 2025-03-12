@@ -2,6 +2,11 @@ local MusicBox = LibStub("AceAddon-3.0"):GetAddon("MusicBox")
 local GetInstanceInfo = GetInstanceInfo
 local IsResting = IsResting
 local UnitIsGhost = UnitIsGhost
+local C_AddOns = C_AddOns
+if C_AddOns == nil then
+	C_AddOns = _G
+end
+local LoadAddOn = C_AddOns.LoadAddOn
 --------------------------------------------------------------------------------------
 
 function MusicBox:PlayMainlineMusic(subzone)
